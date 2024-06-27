@@ -1,8 +1,8 @@
-package modules.users;
+package com.example.md5_phoneshopdata.modules.users;
 
+import com.example.md5_phoneshopdata.modules.role.Role;
 import jakarta.persistence.*;
 import lombok.*;
-import modules.role.Role;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity

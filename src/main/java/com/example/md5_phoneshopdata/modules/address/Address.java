@@ -1,9 +1,8 @@
-package modules.shopping_cart;
+package com.example.md5_phoneshopdata.modules.address;
 
 import jakarta.persistence.*;
 import lombok.*;
-import modules.product.Product;
-import modules.users.Users;
+import com.example.md5_phoneshopdata.modules.users.Users;
 
 @Entity
 @NoArgsConstructor
@@ -11,16 +10,15 @@ import modules.users.Users;
 @Getter
 @Setter
 @Builder
-public class ShoppingCart {
+
+public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
-    @ManyToOne
     @JoinColumn(name = "user_id")
     private Users user;
-    private int quantity;
-
+    private String addressDetail;
+    private String phone;
+    private String receiverName;
 }
