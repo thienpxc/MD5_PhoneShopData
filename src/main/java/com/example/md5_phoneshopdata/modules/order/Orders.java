@@ -4,7 +4,6 @@ import com.example.md5_phoneshopdata.modules.users.Users;
 import jakarta.persistence.*;
 import lombok.*;
 
-
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
