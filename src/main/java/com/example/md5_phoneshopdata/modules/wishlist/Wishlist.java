@@ -1,9 +1,9 @@
-package modules.wishlist;
+package com.example.md5_phoneshopdata.modules.wishlist;
 
 import jakarta.persistence.*;
 import lombok.*;
-import modules.product.Product;
-import modules.users.Users;
+import com.example.md5_phoneshopdata.modules.product.Product;
+import com.example.md5_phoneshopdata.modules.users.Users;
 
 @Entity
 @NoArgsConstructor

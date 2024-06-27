@@ -1,9 +1,9 @@
-package modules.order_detail;
+package com.example.md5_phoneshopdata.modules.order_detail;
 
 import jakarta.persistence.*;
 import lombok.*;
-import modules.order.Order;
-import modules.product.Product;
+import com.example.md5_phoneshopdata.modules.order.Orders;
+import com.example.md5_phoneshopdata.modules.product.Product;
 
 @Entity
 @AllArgsConstructor
@@ -17,7 +17,7 @@ public class OrderDetail {
     private Integer id;
     @ManyToOne
     @JoinColumn(name = "order_id")
-    private Order order;
+    private Orders orders;
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;

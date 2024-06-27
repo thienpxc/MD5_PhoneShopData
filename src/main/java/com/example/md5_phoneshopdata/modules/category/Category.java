@@ -1,4 +1,4 @@
-package modules.category;
+package com.example.md5_phoneshopdata.modules.category;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
