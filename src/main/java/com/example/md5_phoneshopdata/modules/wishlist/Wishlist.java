@@ -4,6 +4,11 @@ import com.example.md5_phoneshopdata.modules.product.Product;
 import com.example.md5_phoneshopdata.modules.users.Users;
 import jakarta.persistence.*;
 import lombok.*;
+<<<<<<< HEAD
+=======
+import com.example.md5_phoneshopdata.modules.product.Product;
+import com.example.md5_phoneshopdata.modules.users.Users;
+>>>>>>> 543067645526651b20e2986f13d0eaf08dc43b01
 
 @Entity
 @NoArgsConstructor

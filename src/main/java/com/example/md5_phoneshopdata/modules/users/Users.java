@@ -1,7 +1,5 @@
 package com.example.md5_phoneshopdata.modules.users;
 
-import com.example.md5_phoneshopdata.modules.role.Role;
-import com.example.md5_phoneshopdata.modules.user_role.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;

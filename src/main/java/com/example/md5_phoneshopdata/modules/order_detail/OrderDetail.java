@@ -5,6 +5,7 @@ import com.example.md5_phoneshopdata.modules.product.Product;
 import jakarta.persistence.*;
 import lombok.*;
 
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,7 +18,9 @@ public class OrderDetail {
     private Integer id;
     @ManyToOne
     @JoinColumn(name = "order_id")
+
     private Orders order;
+
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;

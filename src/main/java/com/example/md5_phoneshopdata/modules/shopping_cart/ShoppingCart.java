@@ -5,6 +5,7 @@ import com.example.md5_phoneshopdata.modules.users.Users;
 import jakarta.persistence.*;
 import lombok.*;
 
+
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor

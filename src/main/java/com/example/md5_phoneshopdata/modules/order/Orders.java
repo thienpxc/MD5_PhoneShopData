@@ -1,8 +1,10 @@
 package com.example.md5_phoneshopdata.modules.order;
 
+import com.example.md5_phoneshopdata.modules.users.Users;
 import jakarta.persistence.*;
 import lombok.*;
-import com.example.md5_phoneshopdata.modules.users.Users;
+
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
