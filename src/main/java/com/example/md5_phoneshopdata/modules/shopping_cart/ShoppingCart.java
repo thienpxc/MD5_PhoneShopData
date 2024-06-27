@@ -1,9 +1,10 @@
 package com.example.md5_phoneshopdata.modules.shopping_cart;
 
-import jakarta.persistence.*;
-import lombok.*;
 import com.example.md5_phoneshopdata.modules.product.Product;
 import com.example.md5_phoneshopdata.modules.users.Users;
+import jakarta.persistence.*;
+import lombok.*;
+
 
 @Entity
 @NoArgsConstructor
