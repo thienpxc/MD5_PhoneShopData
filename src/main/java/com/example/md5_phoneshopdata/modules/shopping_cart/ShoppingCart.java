@@ -1,9 +1,9 @@
-package modules.wishlist;
+package com.example.md5_phoneshopdata.modules.shopping_cart;
 
+import com.example.md5_phoneshopdata.modules.product.Product;
+import com.example.md5_phoneshopdata.modules.users.Users;
 import jakarta.persistence.*;
 import lombok.*;
-import modules.product.Product;
-import modules.users.Users;
 
 @Entity
 @NoArgsConstructor
@@ -11,7 +11,7 @@ import modules.users.Users;
 @Getter
 @Setter
 @Builder
-public class Wishlist {
+public class ShoppingCart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -21,4 +21,6 @@ public class Wishlist {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private Users user;
+    private int quantity;
+
 }

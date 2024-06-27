@@ -1,4 +1,4 @@
-package modules.role;
+package com.example.md5_phoneshopdata.modules.role;
 
 import jakarta.persistence.*;
 import lombok.*;

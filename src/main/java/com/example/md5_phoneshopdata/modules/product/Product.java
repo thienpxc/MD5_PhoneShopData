@@ -1,8 +1,8 @@
-package modules.product;
+package com.example.md5_phoneshopdata.modules.product;
 
+import com.example.md5_phoneshopdata.modules.category.Category;
 import jakarta.persistence.*;
 import lombok.*;
-import modules.category.Category;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity

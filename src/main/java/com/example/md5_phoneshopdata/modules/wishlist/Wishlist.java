@@ -1,8 +1,9 @@
-package modules.address;
+package com.example.md5_phoneshopdata.modules.wishlist;
 
+import com.example.md5_phoneshopdata.modules.product.Product;
+import com.example.md5_phoneshopdata.modules.users.Users;
 import jakarta.persistence.*;
 import lombok.*;
-import modules.users.Users;
 
 @Entity
 @NoArgsConstructor
@@ -10,15 +11,14 @@ import modules.users.Users;
 @Getter
 @Setter
 @Builder
-
-public class Address {
+public class Wishlist {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private Users user;
-    private String addressDetail;
-    private String phone;
-    private String receiverName;
 }

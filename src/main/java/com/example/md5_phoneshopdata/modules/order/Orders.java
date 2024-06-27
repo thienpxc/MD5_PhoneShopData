@@ -1,8 +1,8 @@
-package modules.order;
+package com.example.md5_phoneshopdata.modules.order;
 
 import jakarta.persistence.*;
 import lombok.*;
-import modules.users.Users;
+import com.example.md5_phoneshopdata.modules.users.Users;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -13,7 +13,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Builder
 
 
-public class Order {
+public class Orders {
     enum Status {
         WAITING,
         CONFIRMED,
