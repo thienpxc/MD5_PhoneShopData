@@ -1,10 +1,15 @@
 package com.example.md5_phoneshopdata.modules.product;
 
 import com.example.md5_phoneshopdata.modules.category.Category;
+import com.example.md5_phoneshopdata.modules.images.Images;
+import com.example.md5_phoneshopdata.modules.product_ariant.ProductVariant;
 import jakarta.persistence.*;
 import lombok.*;
 
 import org.springframework.format.annotation.DateTimeFormat;
+
+import java.util.Date;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -12,22 +17,24 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Getter
 @Setter
 @Builder
+@Table(name = "Product")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String sku;
     private String name;
+    @OneToMany(mappedBy = "productVariant",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<ProductVariant> variants;
     private String description;
-    private double price;
-    private int quantity;
-    private String image;
+    @OneToMany(mappedBy = "productImage", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Images> images;
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private String createDate;
+    private Date createDate;
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private String updateDate;
+    private Date updateDate;
+    private boolean status;
 
 }

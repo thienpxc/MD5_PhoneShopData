@@ -6,6 +6,8 @@ import lombok.*;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.util.Date;
+
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -39,8 +41,8 @@ public class Orders {
     private String receivePhone;
     private String receiveAddress;
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private String createDate;
+    private Date createDate;
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private String receiveDate;
+    private Date receiveDate;
 
 }
