@@ -1,6 +1,7 @@
 package com.example.md5_phoneshopdata.modules.product.service;
 
 import com.example.md5_phoneshopdata.modules.product.Product;
+import com.example.md5_phoneshopdata.modules.product.ProductRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.hibernate.Session;
@@ -14,10 +15,17 @@ public class ProductSerive implements IProductSerive {
     @Autowired
     private EntityManager entityManager;
 
+    @Autowired
+    private ProductRepository productRepository;
+
     @Override
     public List<Product> findAll() {
-        TypedQuery<Product> query = entityManager.createQuery("from Product where isDeleted = true ", Product.class);
+        TypedQuery<Product> query = entityManager.createQuery("from Product where status = true ", Product.class);
         return query.getResultList();
+    }
+
+    public List<Product> findByStatus(boolean status) {
+        return productRepository.findByStatus(status);
     }
 
     @Override

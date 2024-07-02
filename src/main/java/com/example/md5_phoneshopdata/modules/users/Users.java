@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.util.Date;
+
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,18 +18,19 @@ public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(unique = true)
     private String userName;
+    @Column(unique = true)
     private String email;
-    private String fullName;
-    private boolean status;
     private String password;
+    @Column(unique = true)
     private String phone;
-    private String address;
+    private String address = null;
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private String date;
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private String updateDate;
-    private boolean isDeleted;
+    private String updateDate = new Date().toString();;
+    private boolean status = true;
 
 
 }

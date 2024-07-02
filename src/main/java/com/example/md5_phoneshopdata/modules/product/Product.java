@@ -2,7 +2,7 @@ package com.example.md5_phoneshopdata.modules.product;
 
 import com.example.md5_phoneshopdata.modules.category.Category;
 import com.example.md5_phoneshopdata.modules.images.Images;
-import com.example.md5_phoneshopdata.modules.product_ariant.ProductVariant;
+import com.example.md5_phoneshopdata.modules.product.product_ariant.ProductVariant;
 import jakarta.persistence.*;
 import lombok.*;
 

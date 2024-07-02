@@ -18,9 +18,8 @@ public class Images {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String url;
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product productImage;
+
+    private String productImage;
     private boolean status = true;
 
 
