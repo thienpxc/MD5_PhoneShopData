@@ -27,10 +27,24 @@ public class Users {
     private String phone;
     private String address = null;
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private String date;
+    private String date = new Date().toString();
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private String updateDate = new Date().toString();;
-    private boolean status = true;
+    private boolean status = false;
 
 
+    @Override
+    public String toString() {
+        return "Users{" +
+                "id=" + id +
+                ", userName='" + userName + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", phone='" + phone + '\'' +
+                ", address='" + address + '\'' +
+                ", date='" + date + '\'' +
+                ", updateDate='" + updateDate + '\'' +
+                ", status=" + status +
+                '}';
+    }
 }

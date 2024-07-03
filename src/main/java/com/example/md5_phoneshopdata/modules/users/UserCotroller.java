@@ -1,17 +1,27 @@
 package com.example.md5_phoneshopdata.modules.users;
 
 
+import com.example.md5_phoneshopdata.modules.users.dto.CreateRespone;
 import com.example.md5_phoneshopdata.modules.users.dto.UserRegisterdto;
+import com.example.md5_phoneshopdata.modules.users.dto.login.LoginReqDto;
+import com.example.md5_phoneshopdata.modules.users.dto.login.LoginResDto;
+import com.example.md5_phoneshopdata.modules.users.mail.EmailTemplate;
+import com.example.md5_phoneshopdata.modules.users.mail.MailService;
+import com.example.md5_phoneshopdata.modules.users.mail.Option;
 import com.example.md5_phoneshopdata.modules.users.service.IUserSerive;
 import com.example.md5_phoneshopdata.modules.users.service.UserService;
+import com.example.md5_phoneshopdata.util.jwt.JwtBuilder;
+import com.example.md5_phoneshopdata.util.jwt.dto.EmailConfirmDto;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
-@RestController
+import java.util.ArrayList;
+
+@Controller
 @RequestMapping("/api")
 public class UserCotroller {
 
@@ -20,6 +30,10 @@ public class UserCotroller {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private MailService mailService;
+
+
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody UserRegisterdto userRegisterDto) {
@@ -27,26 +41,83 @@ public class UserCotroller {
         if (iuserSerive.existsByUserName(userRegisterDto.getUserName())) {
             return ResponseEntity
                     .badRequest()
-                    .body(new Error("Error: Username is already taken!"));
+                    .body(new Error("Tên người dùng đã được sử dụng!"));
         }
         if (iuserSerive.existsByEmail(userRegisterDto.getEmail())) {
             return ResponseEntity
                     .badRequest()
-                    .body(new Error("Error: Email is already in use!"));
+                    .body(new Error(" Email đã được sử dụng!"));
         }
 
         if (iuserSerive.existsByPhone(userRegisterDto.getPhone())) {
             return ResponseEntity
                     .badRequest()
-                    .body(new Error("Error: Phone number is already in use!"));
+                    .body(new Error("Số điện thoại đã được sử dụng!"));
         }
-//        CreateRespone result  = userModel.create(registerReqDTO);
-//        if(result.getData() != null) {
-//            mailService.sendMail(new SingleOption("tieucamieu@gmail.com", "ok", result.getData().getEmail()));
-//        }
+
+
+        String hashedPassword = BCrypt.hashpw(userRegisterDto.getPassword(), BCrypt.gensalt());
+        userRegisterDto.setPassword(hashedPassword);
 
         Users user = userService.convertToUser(userRegisterDto);
+        System.out.println("user"+user);
+        CreateRespone result = new CreateRespone();
+
+        result.setData(user);
+        result.setMessage("User converted successfully");
+
+
+        if(result.getData() != null) {
+//            String userName = result.getData().getUserName();
+            String userEmail = result.getData().getEmail();
+            ArrayList<String> emails = new ArrayList<>();
+            emails.add(userEmail);
+            String token;
+            try {
+                token = JwtBuilder.createTokenForConfirmEmail(new EmailConfirmDto(result.getData().getEmail(), result.getData().getId()));
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+                // Xử lý lỗi tại đây, ví dụ: ghi log, trả về lỗi cho người dùng,...
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error while creating token");
+            }
+
+            String verificationLink = "http://localhost:1234/api/user/status-email?token=" + token;
+            String emailContent = EmailTemplate.generateEmailContent( userEmail, verificationLink);
+            // Add more emails to the list if needed
+            mailService.sendMailHtml(new Option("Xác thực tài khoản của bạn tại Cellphones", emailContent, emails));
+        }
+
+
         user = iuserSerive.registerUser(user);
         return ResponseEntity.ok(user);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResDto> loginUser(@RequestBody LoginReqDto body) throws IllegalAccessException {
+        Users user = userService.findByLoginId(body.getLoginId());
+        if(user == null) {
+            return new ResponseEntity<LoginResDto>(new LoginResDto("Tài khoản không tồn tại", null), HttpStatus.BAD_REQUEST);
+        }else {
+            if(!BCrypt.checkpw(body.getPassword(), user.getPassword())) {
+                return new ResponseEntity<LoginResDto>(new LoginResDto("Mật khẩu sai", null), HttpStatus.BAD_REQUEST);
+            }else {
+                return new ResponseEntity<LoginResDto>(new LoginResDto("Đăng nhập thành công", JwtBuilder.createTokenUser(user)), HttpStatus.OK);
+            }
+        }
+    }
+
+
+
+    @GetMapping("/user/status-email")
+    public String confirmEmail(@RequestParam("token") String token) throws IllegalAccessException {
+        EmailConfirmDto data = JwtBuilder.verifyTokenForEmailConfirm(token);
+        Users oldData = userService.findById(data.getId());
+        oldData.setStatus(true);
+        Users newData = userService.update(oldData);
+        if(newData != null) {
+            return "email_dxt.html";
+        }else {
+            return "email_txl.html";
+        }
     }
 }
