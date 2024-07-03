@@ -31,10 +31,12 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
+    private double price;
+    private Integer quantity;
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private Date createDate;
+    private Date createDate ;
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Date updateDate;
-    private boolean status;
+    private boolean status = true;
 
 }
