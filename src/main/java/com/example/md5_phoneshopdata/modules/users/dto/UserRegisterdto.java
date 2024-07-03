@@ -18,6 +18,7 @@ import java.util.Date;
 @Getter
 @Setter
 public class UserRegisterdto {
+    private Integer id;
     @Size(min = 3, max = 50, message = "Tên người dùng phải từ 3 đến 50 ký tự")
     @Column(unique = true)
     private String userName;
@@ -25,11 +26,10 @@ public class UserRegisterdto {
     @Column(unique = true)
     private String phone;
     @Column(unique = true)
-
-    @Email(message = "Email không hợp lệ")
     private String email;
     private Date date;
     private String password;
+
 
 
 }
