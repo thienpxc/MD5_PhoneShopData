@@ -1,11 +1,9 @@
 package com.example.md5_phoneshopdata.modules.product.service;
 
 import com.example.md5_phoneshopdata.modules.product.Product;
-import com.example.md5_phoneshopdata.modules.product.ProductRepository;
+import com.example.md5_phoneshopdata.modules.product.repository.IProductRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,30 +14,47 @@ public class ProductSerive implements IProductSerive {
     private EntityManager entityManager;
 
     @Autowired
-    private ProductRepository productRepository;
+    private IProductRepository productRepository;
 
     @Override
     public List<Product> findAll() {
-        TypedQuery<Product> query = entityManager.createQuery("from Product where status = true ", Product.class);
-        return query.getResultList();
+        return productRepository.findAll();
     }
 
+    @Override
     public List<Product> findByStatus(boolean status) {
         return productRepository.findByStatus(status);
     }
 
     @Override
-    public Object findById(Object id) {
-        return null;
+    public List<Product> searchByName(String name) {
+        TypedQuery<Product> query = entityManager.createQuery("select p from Product p where p.name like :name", Product.class);
+        query.setParameter("name", "%" + name + "%");
+        return query.getResultList();
     }
 
     @Override
-    public void save(Object o) {
-
+    public Product findById(Long id) {
+        return productRepository.findById(id);
     }
 
     @Override
-    public void delete(Object id) {
-
+    public void save(Product product) {
+        productRepository.save(product);
     }
-}
+
+    @Override
+    public void delete(Long id) {
+        productRepository.delete(id);
+    }
+
+    @Override
+    public boolean existsByName(String name) {
+        return productRepository.existsByName(name);
+    }
+
+    @Override
+    public List<Product> findByPagination(int limit, int offset) {
+        return productRepository.findByPagination(limit, offset);
+    }
+  }

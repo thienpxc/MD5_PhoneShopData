@@ -1,10 +1,10 @@
-package com.example.md5_phoneshopdata.modules.product.service;
+package com.example.md5_phoneshopdata.modules.product.repository;
 
 import com.example.md5_phoneshopdata.modules.product.Product;
 
 import java.util.List;
 
-public interface IProductSerive<T,E>  {
+public interface IProductRepository {
     List<Product> findByStatus(boolean status);
 
     List<Product> findAll();
@@ -20,4 +20,6 @@ public interface IProductSerive<T,E>  {
     boolean existsByName(String name);
 
     List<Product> findByPagination(int limit, int offset);
+
+
 }

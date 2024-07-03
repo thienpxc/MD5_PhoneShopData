@@ -18,5 +18,5 @@ public class Category {
     private Integer id;
     private String name;
     private String description;
-    private boolean status;
+    private boolean status = true;
 }
