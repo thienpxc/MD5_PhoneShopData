@@ -1,4 +1,4 @@
-package com.example.md5_phoneshopdata.modules.users.dto;
+package com.example.md5_phoneshopdata.modules.users.login.dto;
 
 import com.example.md5_phoneshopdata.modules.users.Users;
 import lombok.*;

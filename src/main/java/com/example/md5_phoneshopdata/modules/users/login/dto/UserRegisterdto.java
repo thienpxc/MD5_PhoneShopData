@@ -1,4 +1,4 @@
-package com.example.md5_phoneshopdata.modules.users.dto;
+package com.example.md5_phoneshopdata.modules.users.login.dto;
 
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;

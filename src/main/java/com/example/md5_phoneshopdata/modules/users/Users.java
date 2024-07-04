@@ -26,7 +26,7 @@ public class Users {
     private String address = null;
 
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private Date date ;
+    private String date ;
     @DateTimeFormat(pattern = "dd/MM/yyyy")
 
     private String updateDate = new Date().toString();

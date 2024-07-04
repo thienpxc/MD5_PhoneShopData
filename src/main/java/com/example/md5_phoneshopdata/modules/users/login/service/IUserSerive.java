@@ -1,4 +1,4 @@
-package com.example.md5_phoneshopdata.modules.users.service;
+package com.example.md5_phoneshopdata.modules.users.login.service;
 
 import com.example.md5_phoneshopdata.modules.product.Product;
 import com.example.md5_phoneshopdata.modules.users.Users;

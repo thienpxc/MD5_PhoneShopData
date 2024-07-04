@@ -1,4 +1,4 @@
-package com.example.md5_phoneshopdata.modules.users;
+package com.example.md5_phoneshopdata.modules.users.login;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

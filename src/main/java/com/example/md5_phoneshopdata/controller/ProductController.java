@@ -2,8 +2,8 @@ package com.example.md5_phoneshopdata.controller;
 
 
 import com.example.md5_phoneshopdata.modules.product.Product;
-import com.example.md5_phoneshopdata.modules.product.repository.IProductRepository;
-import com.example.md5_phoneshopdata.modules.product.service.IProductSerive;
+import com.example.md5_phoneshopdata.modules.product.admin.repository.IProductRepository;
+import com.example.md5_phoneshopdata.modules.product.admin.service.IProductSerive;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

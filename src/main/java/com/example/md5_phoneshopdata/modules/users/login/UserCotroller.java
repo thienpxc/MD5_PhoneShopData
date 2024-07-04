@@ -1,15 +1,19 @@
-package com.example.md5_phoneshopdata.modules.users;
+package com.example.md5_phoneshopdata.modules.users.login;
 
 
-import com.example.md5_phoneshopdata.modules.users.dto.CreateRespone;
-import com.example.md5_phoneshopdata.modules.users.dto.UserRegisterdto;
-import com.example.md5_phoneshopdata.modules.users.dto.login.LoginReqDto;
-import com.example.md5_phoneshopdata.modules.users.dto.login.LoginResDto;
-import com.example.md5_phoneshopdata.modules.users.mail.EmailTemplate;
-import com.example.md5_phoneshopdata.modules.users.mail.MailService;
-import com.example.md5_phoneshopdata.modules.users.mail.Option;
-import com.example.md5_phoneshopdata.modules.users.service.IUserSerive;
-import com.example.md5_phoneshopdata.modules.users.service.UserService;
+import com.example.md5_phoneshopdata.modules.users.Users;
+import com.example.md5_phoneshopdata.modules.users.login.Error;
+import com.example.md5_phoneshopdata.modules.users.login.dto.CreateRespone;
+import com.example.md5_phoneshopdata.modules.users.login.dto.UserRegisterdto;
+import com.example.md5_phoneshopdata.modules.users.login.dto.login.LoginReqDto;
+import com.example.md5_phoneshopdata.modules.users.login.dto.login.LoginResDto;
+import com.example.md5_phoneshopdata.modules.users.login.dto.login.VerifyDTO;
+import com.example.md5_phoneshopdata.modules.users.login.dto.login.VerifyReqDTO;
+import com.example.md5_phoneshopdata.modules.users.login.mail.EmailTemplate;
+import com.example.md5_phoneshopdata.modules.users.login.mail.MailService;
+import com.example.md5_phoneshopdata.modules.users.login.mail.Option;
+import com.example.md5_phoneshopdata.modules.users.login.service.IUserSerive;
+import com.example.md5_phoneshopdata.modules.users.login.service.UserService;
 import com.example.md5_phoneshopdata.util.jwt.JwtBuilder;
 import com.example.md5_phoneshopdata.util.jwt.dto.EmailConfirmDto;
 import org.mindrot.jbcrypt.BCrypt;
@@ -94,15 +98,33 @@ public class UserCotroller {
 
     @PostMapping("/login")
     public ResponseEntity<LoginResDto> loginUser(@RequestBody LoginReqDto body) throws IllegalAccessException {
+
+        System.out.println("body" + body);
         Users user = userService.findByLoginId(body.getLoginId());
         if(user == null) {
+            System.out.println("Tài khoản không tồn tại"+ user);
             return new ResponseEntity<LoginResDto>(new LoginResDto("Tài khoản không tồn tại", null), HttpStatus.BAD_REQUEST);
         }else {
             if(!BCrypt.checkpw(body.getPassword(), user.getPassword())) {
                 return new ResponseEntity<LoginResDto>(new LoginResDto("Mật khẩu sai", null), HttpStatus.BAD_REQUEST);
             }else {
+                if(!user.isStatus()) {
+                    return new ResponseEntity<LoginResDto>(new LoginResDto("Tài khoản chưa được kích hoạt", null), HttpStatus.BAD_REQUEST);
+                }
+                System.out.println("Tài khoản không tồn tại"+ user);
                 return new ResponseEntity<LoginResDto>(new LoginResDto("Đăng nhập thành công", JwtBuilder.createTokenUser(user)), HttpStatus.OK);
             }
+        }
+    }
+
+    @PostMapping("/user/verify")
+    public ResponseEntity<VerifyDTO> verifyUser(@RequestBody VerifyReqDTO body) {
+        Users user = JwtBuilder.verifyTokenUser(body.getToken());
+        System.out.println("user " + user);
+        if(user == null) {
+            return new ResponseEntity<VerifyDTO>(new VerifyDTO("Token không hợp lệ", null), HttpStatus.BAD_REQUEST);
+        }else {
+            return new ResponseEntity<VerifyDTO>(new VerifyDTO("Token hợp lệ", user), HttpStatus.OK);
         }
     }
 
