@@ -24,6 +24,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/api")
@@ -143,8 +144,21 @@ public class UserCotroller {
         }
     }
 
-    @GetMapping("/user")
-    public ResponseEntity<?> getAllUser(){
-        return ResponseEntity.ok(iuserSerive.findAll());
+   @GetMapping("/user")
+public ResponseEntity<?> getAllUser(){
+    return ResponseEntity.ok(iuserSerive.findAllByOrderByIdDesc());
+}
+
+    @PostMapping("/user/block/{id}")
+public ResponseEntity<?> toggleUserStatus(@PathVariable Integer id){
+    Optional<Users> userOptional = iuserSerive.findById(id);
+    if (userOptional.isPresent()) {
+        Users user = userOptional.get();
+        user.setStatus(!user.isStatus()); // Toggle status
+        iuserSerive.save(user); // Save the user with the new status
+        return ResponseEntity.ok("User status has been toggled successfully.");
+    } else {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
     }
+}
 }
