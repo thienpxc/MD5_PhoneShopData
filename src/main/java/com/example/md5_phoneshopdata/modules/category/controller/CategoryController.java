@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("")
 @CrossOrigin("*")
 public class CategoryController {
 
@@ -19,24 +19,28 @@ public class CategoryController {
 
 
     
-    @GetMapping("/category")
+    @GetMapping("/admin/category")
     public List<Category> getAllCategory(){
-            return categoryService.findAll();
+//            return categoryService.findAll();
 
-//        return categoryService.findByStatus(true);
+        return categoryService.findByStatus(true);
     }
 
-    @PostMapping("/category/delete/{id}")
+    @PostMapping("/admin/category/delete/{id}")
     public void deleteCategory(@PathVariable Integer id){
         categoryService.delete(id);
     }
 
-    @PostMapping("/category/add")
+    @PostMapping("/admin/category/add")
     public void addCategory(@RequestBody Category category){
         categoryService.save(category);
     }
 
-    @PostMapping("/category/update")
+    @GetMapping("/admin/category/{id}")
+    public Category getCategoryById(@PathVariable Integer id){
+        return categoryService.findById(id);
+    }
+    @PostMapping("/admin/category/update")
     public void updateCategory(@RequestBody Category category){
         categoryService.save(category);
     }

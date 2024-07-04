@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 public interface IUserSerive extends JpaRepository<Users, Integer> {
     Users findByEmail(String email);
    boolean existsByUserName(String userName);
@@ -21,7 +23,11 @@ public interface IUserSerive extends JpaRepository<Users, Integer> {
     @Query(value = "SELECT * FROM users WHERE users.userName = :loginId OR (users.email = :loginId AND users.status = true)", nativeQuery = true)
     Users findByLoginId(@Param("loginId") String loginId);
 
+    //delete user
+    void deleteById(Integer id);
 
+    // Trong IUserSerive
+    List<Users> findAllByOrderByIdDesc();
 
 
 }

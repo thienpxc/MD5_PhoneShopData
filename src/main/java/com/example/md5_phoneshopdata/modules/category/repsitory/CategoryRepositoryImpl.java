@@ -18,13 +18,13 @@ public class CategoryRepositoryImpl  implements CategoryRepository{
 
     @Override
     public List<Category> findAll() {
-        return entityManager.createQuery("select c from Category c", Category.class)
+        return entityManager.createQuery("select c from Category c ORDER BY c.id DESC", Category.class)
                 .getResultList();
     }
 
     @Override
     public List<Category> findByStatus(Boolean status) {
-        return entityManager.createQuery("select c from Category c where c.status = :status", Category.class)
+        return entityManager.createQuery("select c from Category c where c.status  = :status ORDER BY c.id DESC", Category.class)
                 .setParameter("status", status)
                 .getResultList();
     }
