@@ -120,4 +120,9 @@ public class UserCotroller {
             return "email_txl.html";
         }
     }
+
+    @GetMapping("/user")
+    public ResponseEntity<?> getAllUser(){
+        return ResponseEntity.ok(iuserSerive.findAll());
+    }
 }

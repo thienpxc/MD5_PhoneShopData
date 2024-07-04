@@ -30,7 +30,7 @@ public class Users {
     private String date = new Date().toString();
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private String updateDate = new Date().toString();;
-    private boolean status = false;
+    private boolean status = true;
 
 
     @Override
