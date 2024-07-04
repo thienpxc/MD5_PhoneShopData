@@ -21,7 +21,14 @@ public class CategoryController {
     
     @GetMapping("/admin/category")
     public List<Category> getAllCategory(){
+           return categoryService.findAll();
+
+//       return categoryService.findByStatus(true);
+    }
+    @GetMapping("/admin/product/category")
+    public List<Category> getStatusCategory(){
 //            return categoryService.findAll();
+
 
         return categoryService.findByStatus(true);
     }
@@ -36,10 +43,12 @@ public class CategoryController {
         categoryService.save(category);
     }
 
+
     @GetMapping("/admin/category/{id}")
     public Category getCategoryById(@PathVariable Integer id){
         return categoryService.findById(id);
     }
+
     @PostMapping("/admin/category/update")
     public void updateCategory(@RequestBody Category category){
         categoryService.save(category);
