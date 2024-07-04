@@ -92,14 +92,10 @@ public class JwtBuilder {
             String phone = jwt.getClaim("phone").asString();
             String address = jwt.getClaim("address").asString();
             String dateString = jwt.getClaim("date").asString();
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-            Date date = formatter.parse(dateString);
             String updateDate = jwt.getClaim("updateDate").asString();
-            return new Users(id, userName, email, password, phone, address, date, updateDate, status, role);
+            return new Users(id, userName, email, password, phone, address, dateString, updateDate, status, role);
         } catch (JWTVerificationException exception){
             return null;
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.example.md5_phoneshopdata.modules.product.product_ariant;
+package com.example.md5_phoneshopdata.modules.product.user.product_ariant;
 
 import com.example.md5_phoneshopdata.modules.product.Product;
 import jakarta.persistence.*;
@@ -16,8 +16,9 @@ public class ProductVariant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    private String productVariant;
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product productVariant;
     private String color; // Màu sắc
     private String Image; // Ảnh
     private String storage; // Bộ nhớ

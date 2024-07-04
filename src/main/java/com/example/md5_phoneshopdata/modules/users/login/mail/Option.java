@@ -1,4 +1,4 @@
-package com.example.md5_phoneshopdata.modules.users.mail;
+package com.example.md5_phoneshopdata.modules.users.login.mail;
 
 import lombok.Data;
 

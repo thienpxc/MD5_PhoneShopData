@@ -1,7 +1,7 @@
-package com.example.md5_phoneshopdata.modules.product.service;
+package com.example.md5_phoneshopdata.modules.product.admin.service;
 
 import com.example.md5_phoneshopdata.modules.product.Product;
-import com.example.md5_phoneshopdata.modules.product.repository.IProductRepository;
+import com.example.md5_phoneshopdata.modules.product.admin.repository.IProductRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;

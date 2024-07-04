@@ -1,4 +1,4 @@
-package com.example.md5_phoneshopdata.modules.users.mail;
+package com.example.md5_phoneshopdata.modules.users.login.mail;
 
 public class EmailTemplate {
     private static final String HTML_TEMPLATE =

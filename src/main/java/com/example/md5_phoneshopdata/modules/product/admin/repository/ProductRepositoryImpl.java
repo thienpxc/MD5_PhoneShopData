@@ -1,11 +1,10 @@
-package com.example.md5_phoneshopdata.modules.product.repository;
+package com.example.md5_phoneshopdata.modules.product.admin.repository;
 
 import com.example.md5_phoneshopdata.modules.product.Product;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 @Repository

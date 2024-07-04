@@ -1,8 +1,7 @@
-package com.example.md5_phoneshopdata.modules.users.service;
+package com.example.md5_phoneshopdata.modules.users.login.service;
 
 import com.example.md5_phoneshopdata.modules.users.Users;
-import com.example.md5_phoneshopdata.modules.users.dto.CreateRespone;
-import com.example.md5_phoneshopdata.modules.users.dto.UserRegisterdto;
+import com.example.md5_phoneshopdata.modules.users.login.dto.UserRegisterdto;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;

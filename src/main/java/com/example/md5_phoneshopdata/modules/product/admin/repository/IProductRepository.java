@@ -1,4 +1,4 @@
-package com.example.md5_phoneshopdata.modules.product.repository;
+package com.example.md5_phoneshopdata.modules.product.admin.repository;
 
 import com.example.md5_phoneshopdata.modules.product.Product;
 
