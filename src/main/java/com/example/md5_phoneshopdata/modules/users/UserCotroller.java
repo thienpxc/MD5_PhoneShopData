@@ -23,6 +23,7 @@ import java.util.ArrayList;
 
 @Controller
 @RequestMapping("/api")
+@CrossOrigin("*")
 public class UserCotroller {
 
     @Autowired
@@ -64,9 +65,7 @@ public class UserCotroller {
         CreateRespone result = new CreateRespone();
 
         result.setData(user);
-        result.setMessage("User converted successfully");
-
-
+        result.setMessage("Đăng ký thành công ! Vui lòng kiểm tra email để xác thực tài khoản");
         if(result.getData() != null) {
 //            String userName = result.getData().getUserName();
             String userEmail = result.getData().getEmail();
@@ -89,7 +88,8 @@ public class UserCotroller {
 
 
         user = iuserSerive.registerUser(user);
-        return ResponseEntity.ok(user);
+        result.setData(user);
+        return ResponseEntity.ok(result);
     }
 
     @PostMapping("/login")

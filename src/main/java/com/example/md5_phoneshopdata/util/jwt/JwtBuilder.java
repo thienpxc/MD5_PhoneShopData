@@ -7,9 +7,13 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.md5_phoneshopdata.modules.users.Users;
+
 import com.example.md5_phoneshopdata.util.jwt.dto.EmailConfirmDto;
 
 import java.lang.reflect.Field;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class JwtBuilder {
     private static String secretKey = "ThienPxc";
@@ -70,5 +74,32 @@ public class JwtBuilder {
         }
 
         return builder.sign(Algorithm.HMAC256(secretKey));
+    }
+    public static Users verifyTokenUser(String token) {
+        try {
+            Algorithm algorithm = Algorithm.HMAC256(secretKey);
+            DecodedJWT jwt = JWT.require(algorithm)
+                    .withIssuer("auth0")
+                    .build()
+                    .verify(token);
+
+            String email = jwt.getClaim("email").asString();
+            Integer id = Integer.parseInt(jwt.getClaim("id").asString());
+            Boolean role = Boolean.valueOf(jwt.getClaim("role").asString());
+            Boolean status = Boolean.valueOf(jwt.getClaim("status").asString());
+            String userName = jwt.getClaim("userName").asString();
+            String password = jwt.getClaim("password").asString();
+            String phone = jwt.getClaim("phone").asString();
+            String address = jwt.getClaim("address").asString();
+            String dateString = jwt.getClaim("date").asString();
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            Date date = formatter.parse(dateString);
+            String updateDate = jwt.getClaim("updateDate").asString();
+            return new Users(id, userName, email, password, phone, address, date, updateDate, status, role);
+        } catch (JWTVerificationException exception){
+            return null;
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -1,7 +1,5 @@
 package com.example.md5_phoneshopdata.modules.users;
 
-import com.example.md5_phoneshopdata.modules.role.Role;
-import com.example.md5_phoneshopdata.modules.user_role.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -26,11 +24,15 @@ public class Users {
     @Column(unique = true)
     private String phone;
     private String address = null;
+
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private String date = new Date().toString();
+    private Date date ;
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private String updateDate = new Date().toString();;
-    private boolean status = true;
+
+    private String updateDate = new Date().toString();
+    private boolean status = false;
+    private boolean userRole = false;
+
 
 
     @Override
