@@ -28,9 +28,11 @@ public class Users {
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Date date ;
     @DateTimeFormat(pattern = "dd/MM/yyyy")
+
     private String updateDate = new Date().toString();
     private boolean status = false;
     private boolean userRole = false;
+
 
 
     @Override

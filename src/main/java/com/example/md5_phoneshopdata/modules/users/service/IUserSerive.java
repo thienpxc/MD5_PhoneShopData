@@ -22,4 +22,6 @@ public interface IUserSerive extends JpaRepository<Users, Integer> {
     Users findByLoginId(@Param("loginId") String loginId);
 
 
+
+
 }

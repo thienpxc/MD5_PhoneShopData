@@ -5,15 +5,14 @@ import com.example.md5_phoneshopdata.modules.product.Product;
 import com.example.md5_phoneshopdata.modules.product.repository.IProductRepository;
 import com.example.md5_phoneshopdata.modules.product.service.IProductSerive;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/admin")
+@CrossOrigin("*")
+
 public class ProductController {
 
     @Autowired
