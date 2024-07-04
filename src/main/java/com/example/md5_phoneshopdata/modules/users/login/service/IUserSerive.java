@@ -16,6 +16,7 @@ public interface IUserSerive extends JpaRepository<Users, Integer> {
     boolean existsByPhone(String phone);
 
 
+
     default Users registerUser(Users user) {
         return save(user);
     }

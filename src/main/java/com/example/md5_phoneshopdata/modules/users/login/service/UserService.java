@@ -27,7 +27,6 @@ public class UserService{
     public Users findByLoginId(String userId) {
         try {
             Users users = iUserSerive.findByLoginId(userId);
-            System.out.println("userssssssssssssssssssssssssssssssssssssss"+users);
             return users;
         } catch (Exception e) {
             return null;
