@@ -1,60 +1,91 @@
 package com.example.md5_phoneshopdata.modules.product.admin.service;
 
+
+
 import com.example.md5_phoneshopdata.modules.product.Product;
-import com.example.md5_phoneshopdata.modules.product.admin.repository.IProductRepository;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.TypedQuery;
+import com.example.md5_phoneshopdata.modules.product.admin.dto.ProductDto;
+import com.example.md5_phoneshopdata.modules.product.admin.dto.ProductVariantDTO;
+import com.example.md5_phoneshopdata.modules.product.admin.dto.ProductVariantImgDTO;
+import com.example.md5_phoneshopdata.modules.product.admin.dto.ProductWithVariantsDTO;
+
+import com.example.md5_phoneshopdata.modules.product.admin.repository.CategoryRepositoryProductImpl;
+import com.example.md5_phoneshopdata.modules.product.admin.repository.ProductRepository;
+import com.example.md5_phoneshopdata.modules.product.admin.repository.ProductVarianRepositoryImg;
+import com.example.md5_phoneshopdata.modules.product.admin.repository.ProductVariantRepository;
+import com.example.md5_phoneshopdata.modules.product.user.product_ariant.ProductVariant;
+import com.example.md5_phoneshopdata.modules.product.user.product_ariant.ProductVariantImg;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
+
+@Transactional
 @Service
-public class ProductSerive implements IProductSerive {
-    @Autowired
-    private EntityManager entityManager;
+public  class ProductSerive {
+
 
     @Autowired
-    private IProductRepository productRepository;
+    private ProductRepository productRepository;
 
-    @Override
-    public List<Product> findAll() {
-        return productRepository.findAll();
-    }
+    @Autowired
+    private CategoryRepositoryProductImpl categoryRepository;
 
-    @Override
-    public List<Product> findByStatus(boolean status) {
-        return productRepository.findByStatus(status);
-    }
+    @Autowired
+    private ProductVariantRepository productVariantRepository;
 
-    @Override
-    public List<Product> searchByName(String name) {
-        TypedQuery<Product> query = entityManager.createQuery("select p from Product p where p.name like :name", Product.class);
-        query.setParameter("name", "%" + name + "%");
-        return query.getResultList();
-    }
+    @Autowired
+    private ProductVarianRepositoryImg productVariantRepositoryImg;
 
-    @Override
-    public Product findById(Long id) {
-        return productRepository.findById(id);
-    }
+    public Product createProduct(ProductDto productDto) {
+        Product product = new Product();
+        product.setId(productDto.getId());
+        product.setName(productDto.getName());
+        product.setImages(productDto.getImages());
+        product.setDescription(productDto.getDescription());
+        product.setStorage(productDto.getStorage());
+        product.setCategory(categoryRepository.findById(productDto.getCategoryId())
+                .orElseThrow(() -> new RuntimeException("Category not found")));
+        product.setCreateDate(LocalDate.now().toString());
+        product.setStatus(true);
 
-    @Override
-    public void save(Product product) {
-        productRepository.save(product);
+        return productRepository.save(product);
     }
+    public ProductVariant createProductVariant(Product product, ProductVariantDTO variantDTO) {
+        ProductVariant variant = new ProductVariant();
+        variant.setProductVariant(product);
+        variant.setColor(variantDTO.getColor());
+        variant.setPrice(variantDTO.getPrice());
+        variant.setImage(variantDTO.getImage());
+        variant.setQuantity(variantDTO.getQuantity());
+        variant.setDescription(variantDTO.getDescription());
+        variant.setStatus(true);
 
-    @Override
-    public void delete(Long id) {
-        productRepository.delete(id);
+        return productVariantRepository.save(variant);
     }
+    public ProductVariantImg createProductVariantImg(Product product, ProductVariantImgDTO productVariantImgDTO) {
+        ProductVariantImg variantImg = new ProductVariantImg();
+        variantImg.setProductVariantImg(product);
+        variantImg.setImage(productVariantImgDTO.getImages());
 
-    @Override
-    public boolean existsByName(String name) {
-        return productRepository.existsByName(name);
+        return productVariantRepositoryImg.save(variantImg);
     }
+    public Product createProductWithVariants(ProductWithVariantsDTO dto) {
+        if (dto.getProduct() == null) {
+            throw new IllegalArgumentException("ProductDto cannot be null");
+        }
+        Product product = createProduct(dto.getProduct());
 
-    @Override
-    public List<Product> findByPagination(int limit, int offset) {
-        return productRepository.findByPagination(limit, offset);
+        for (ProductVariantDTO variantDTO : dto.getVariants()) {
+            createProductVariant(product, variantDTO);
+        }
+
+        // Add this loop to create ProductVariantImg for each ProductVariantImgDTO
+//        for (ProductVariantImgDTO imgDTO : dto.getImages()) {
+//            createProductVariantImg(product, imgDTO);
+//        }
+
+        return product;
     }
-  }
+}

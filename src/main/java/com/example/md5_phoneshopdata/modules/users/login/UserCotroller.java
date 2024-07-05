@@ -45,7 +45,6 @@ public class UserCotroller {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody UserRegisterdto userRegisterDto) {
-        System.out.println("userRegisterDto" + userRegisterDto);
         if (iuserSerive.existsByUserName(userRegisterDto.getUserName())) {
             return ResponseEntity
                     .badRequest()
@@ -63,18 +62,13 @@ public class UserCotroller {
                     .body(new Error("Số điện thoại đã được sử dụng!"));
         }
 
-
         String hashedPassword = BCrypt.hashpw(userRegisterDto.getPassword(), BCrypt.gensalt());
         userRegisterDto.setPassword(hashedPassword);
-
         Users user = userService.convertToUser(userRegisterDto);
-        System.out.println("user" + user);
         CreateRespone result = new CreateRespone();
-
         result.setData(user);
         result.setMessage("Đăng ký thành công ! Vui lòng kiểm tra email để xác thực tài khoản");
         if (result.getData() != null) {
-//            String userName = result.getData().getUserName();
             String userEmail = result.getData().getEmail();
             ArrayList<String> emails = new ArrayList<>();
             emails.add(userEmail);
@@ -83,7 +77,6 @@ public class UserCotroller {
                 token = JwtBuilder.createTokenForConfirmEmail(new EmailConfirmDto(result.getData().getEmail(), result.getData().getId()));
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
-                // Xử lý lỗi tại đây, ví dụ: ghi log, trả về lỗi cho người dùng,...
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error while creating token");
             }
 
@@ -92,8 +85,6 @@ public class UserCotroller {
             // Add more emails to the list if needed
             mailService.sendMailHtml(new Option("Xác thực tài khoản của bạn tại Cellphones", emailContent, emails));
         }
-
-
         user = iuserSerive.registerUser(user);
         result.setData(user);
         return ResponseEntity.ok(result);
@@ -102,10 +93,9 @@ public class UserCotroller {
     @PostMapping("/login")
     public ResponseEntity<LoginResDto> loginUser(@RequestBody LoginReqDto body) throws IllegalAccessException {
 
-        System.out.println("body" + body);
         Users user = userService.findByLoginId(body.getLoginId());
         if (user == null) {
-            System.out.println("Tài khoản không tồn tại" + user);
+
             return new ResponseEntity<LoginResDto>(new LoginResDto("Tài khoản không tồn tại", null), HttpStatus.BAD_REQUEST);
         } else {
             if (!BCrypt.checkpw(body.getPassword(), user.getPassword())) {
@@ -122,8 +112,9 @@ public class UserCotroller {
 
     @PostMapping("/user/verify")
     public ResponseEntity<VerifyDTO> verifyUser(@RequestBody VerifyReqDTO body) {
+
         Users user = JwtBuilder.verifyTokenUser(body.getToken());
-        System.out.println("user " + user);
+
         if (user == null) {
             return new ResponseEntity<VerifyDTO>(new VerifyDTO("Token không hợp lệ", null), HttpStatus.BAD_REQUEST);
         } else {

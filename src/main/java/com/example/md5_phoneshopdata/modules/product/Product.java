@@ -21,6 +21,7 @@ public class Product {
     private String name;
     private String description;
     private String images;
+    private String storage;
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;

@@ -46,7 +46,7 @@ public class JwtBuilder {
                     .verify(token);
 
             String email = jwt.getClaim("email").asString();
-            System.out.println(email + "email");
+
 
 
             Claim idClaim = jwt.getClaim("id");

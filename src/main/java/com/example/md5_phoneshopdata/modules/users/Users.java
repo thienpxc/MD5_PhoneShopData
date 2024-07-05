@@ -24,11 +24,9 @@ public class Users {
     @Column(unique = true)
     private String phone;
     private String address = null;
-
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private String date ;
+    private String date;
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-
     private String updateDate = new Date().toString();
     private boolean status = false;
     private boolean userRole = false;
@@ -47,6 +45,7 @@ public class Users {
                 ", date='" + date + '\'' +
                 ", updateDate='" + updateDate + '\'' +
                 ", status=" + status +
+                ", userRole=" + userRole +
                 '}';
     }
 
