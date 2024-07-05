@@ -19,8 +19,17 @@ public class CategoryController {
 
 
     @GetMapping("/admin/category")
-    public List<Category> getAllCategory() {
+
+    public List<Category> getAllCategory(){
+           return categoryService.findAll();
+
+//       return categoryService.findByStatus(true);
+    }
+    @GetMapping("/admin/product/category")
+    public List<Category> getStatusCategory(){
+
 //            return categoryService.findAll();
+
 
         return categoryService.findByStatus(true);
     }
@@ -34,6 +43,7 @@ public class CategoryController {
     public void addCategory(@RequestBody Category category) {
         categoryService.save(category);
     }
+
 
     @GetMapping("/admin/category/{id}")
     public Category getCategoryById(@PathVariable Integer id) {
