@@ -17,6 +17,7 @@ import java.util.Date;
 
 public class JwtBuilder {
     private static String secretKey = "ThienPxc";
+
     public static String createTokenForConfirmEmail(EmailConfirmDto data) throws IllegalAccessException {
         JWTCreator.Builder builder = JWT.create().withIssuer("auth0");
 
@@ -35,6 +36,7 @@ public class JwtBuilder {
         }
         return builder.sign(Algorithm.HMAC256(secretKey));
     }
+
     public static EmailConfirmDto verifyTokenForEmailConfirm(String token) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secretKey);
@@ -44,6 +46,7 @@ public class JwtBuilder {
                     .verify(token);
 
             String email = jwt.getClaim("email").asString();
+
 
 
             Claim idClaim = jwt.getClaim("id");
@@ -57,10 +60,11 @@ public class JwtBuilder {
             EmailConfirmDto emailConfirm = new EmailConfirmDto(email, id);
 
             return emailConfirm;
-        } catch (JWTVerificationException exception){
+        } catch (JWTVerificationException exception) {
             return null;
         }
     }
+
     public static String createTokenUser(Users data) throws IllegalAccessException {
         JWTCreator.Builder builder = JWT.create().withIssuer("auth0");
         Field[] fields = Users.class.getDeclaredFields();
@@ -97,4 +101,6 @@ public class JwtBuilder {
             return null;
         }
     }
+
+
 }
