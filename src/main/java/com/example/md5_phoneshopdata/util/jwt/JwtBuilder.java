@@ -17,6 +17,7 @@ import java.util.Date;
 
 public class JwtBuilder {
     private static String secretKey = "ThienPxc";
+
     public static String createTokenForConfirmEmail(EmailConfirmDto data) throws IllegalAccessException {
         JWTCreator.Builder builder = JWT.create().withIssuer("auth0");
 
@@ -35,6 +36,7 @@ public class JwtBuilder {
         }
         return builder.sign(Algorithm.HMAC256(secretKey));
     }
+
     public static EmailConfirmDto verifyTokenForEmailConfirm(String token) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secretKey);
@@ -44,7 +46,7 @@ public class JwtBuilder {
                     .verify(token);
 
             String email = jwt.getClaim("email").asString();
-            System.out.println(email+"email");
+            System.out.println(email + "email");
 
 
             Claim idClaim = jwt.getClaim("id");
@@ -58,10 +60,11 @@ public class JwtBuilder {
             EmailConfirmDto emailConfirm = new EmailConfirmDto(email, id);
 
             return emailConfirm;
-        } catch (JWTVerificationException exception){
+        } catch (JWTVerificationException exception) {
             return null;
         }
     }
+
     public static String createTokenUser(Users data) throws IllegalAccessException {
         JWTCreator.Builder builder = JWT.create().withIssuer("auth0");
         Field[] fields = Users.class.getDeclaredFields();
@@ -85,7 +88,7 @@ public class JwtBuilder {
 
             String email = jwt.getClaim("email").asString();
             Integer id = Integer.parseInt(jwt.getClaim("id").asString());
-            Boolean role = Boolean.valueOf(jwt.getClaim("role").asString());
+            Boolean role = Boolean.valueOf(jwt.getClaim("userRole").asString());
             Boolean status = Boolean.valueOf(jwt.getClaim("status").asString());
             String userName = jwt.getClaim("userName").asString();
             String password = jwt.getClaim("password").asString();
@@ -98,4 +101,6 @@ public class JwtBuilder {
             return null;
         }
     }
+
+
 }

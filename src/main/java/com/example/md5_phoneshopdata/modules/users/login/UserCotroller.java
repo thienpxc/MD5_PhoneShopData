@@ -112,6 +112,7 @@ public class UserCotroller {
                 if(!user.isStatus()) {
                     return new ResponseEntity<LoginResDto>(new LoginResDto("Tài khoản chưa được kích hoạt", null), HttpStatus.BAD_REQUEST);
                 }
+
                 System.out.println("Tài khoản không tồn tại"+ user);
                 return new ResponseEntity<LoginResDto>(new LoginResDto("Đăng nhập thành công", JwtBuilder.createTokenUser(user)), HttpStatus.OK);
             }
