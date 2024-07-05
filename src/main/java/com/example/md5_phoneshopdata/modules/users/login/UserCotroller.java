@@ -18,6 +18,9 @@ import com.example.md5_phoneshopdata.util.jwt.JwtBuilder;
 import com.example.md5_phoneshopdata.util.jwt.dto.EmailConfirmDto;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -112,8 +115,6 @@ public class UserCotroller {
                     return new ResponseEntity<LoginResDto>(new LoginResDto("Tài khoản chưa được kích hoạt", null), HttpStatus.BAD_REQUEST);
                 }
 
-              
-
                 return new ResponseEntity<LoginResDto>(new LoginResDto("Đăng nhập thành công", JwtBuilder.createTokenUser(user)), HttpStatus.OK);
             }
         }
@@ -161,6 +162,19 @@ public class UserCotroller {
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
         }
+
+    }
+
+    @GetMapping("/user/pagination")
+    public ResponseEntity<?> getUserByPagination(@RequestParam int offset, @RequestParam int limit) {
+        Pageable pageable = PageRequest.of(offset, limit);
+        Page<Users> pageUsers = iuserSerive.findAll(pageable);
+        return ResponseEntity.ok(pageUsers.getContent());
+    }
+
+    @GetMapping("/user/search")
+    public ResponseEntity<?> searchUserByName(@RequestParam String userName) {
+        return ResponseEntity.ok(iuserSerive.findByUserNameIgnoreCaseContaining(userName));
 
     }
 }
