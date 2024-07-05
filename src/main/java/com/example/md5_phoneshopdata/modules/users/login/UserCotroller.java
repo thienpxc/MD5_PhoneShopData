@@ -45,7 +45,7 @@ public class UserCotroller {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody UserRegisterdto userRegisterDto) {
-
+        System.out.println("userRegisterDto" + userRegisterDto);
         if (iuserSerive.existsByUserName(userRegisterDto.getUserName())) {
             return ResponseEntity
                     .badRequest()
@@ -115,7 +115,6 @@ public class UserCotroller {
                     return new ResponseEntity<LoginResDto>(new LoginResDto("Tài khoản chưa được kích hoạt", null), HttpStatus.BAD_REQUEST);
                 }
 
-                System.out.println("Tài khoản không tồn tại" + user);
                 return new ResponseEntity<LoginResDto>(new LoginResDto("Đăng nhập thành công", JwtBuilder.createTokenUser(user)), HttpStatus.OK);
             }
         }
@@ -146,6 +145,7 @@ public class UserCotroller {
         }
     }
 
+
     @GetMapping("/user")
     public ResponseEntity<?> getAllUser() {
         return ResponseEntity.ok(iuserSerive.findAllByOrderByIdDesc());
@@ -162,6 +162,7 @@ public class UserCotroller {
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
         }
+
     }
 
     @GetMapping("/user/pagination")
@@ -174,5 +175,6 @@ public class UserCotroller {
     @GetMapping("/user/search")
     public ResponseEntity<?> searchUserByName(@RequestParam String userName) {
         return ResponseEntity.ok(iuserSerive.findByUserNameIgnoreCaseContaining(userName));
+
     }
 }
