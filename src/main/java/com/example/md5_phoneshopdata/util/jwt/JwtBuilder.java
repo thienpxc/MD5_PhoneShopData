@@ -44,7 +44,6 @@ public class JwtBuilder {
                     .verify(token);
 
             String email = jwt.getClaim("email").asString();
-            System.out.println(email+"email");
 
 
             Claim idClaim = jwt.getClaim("id");
@@ -85,7 +84,7 @@ public class JwtBuilder {
 
             String email = jwt.getClaim("email").asString();
             Integer id = Integer.parseInt(jwt.getClaim("id").asString());
-            Boolean role = Boolean.valueOf(jwt.getClaim("role").asString());
+            Boolean role = Boolean.valueOf(jwt.getClaim("userRole").asString());
             Boolean status = Boolean.valueOf(jwt.getClaim("status").asString());
             String userName = jwt.getClaim("userName").asString();
             String password = jwt.getClaim("password").asString();
