@@ -9,9 +9,8 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductWithVariantsDTO {
+public class ProductWithVariantsImgDto {
     private ProductDto product;
     private List<ProductVariantDTO> variants;
-    private List<String> images;
-
+    private List<ImageDto> images;
 }
