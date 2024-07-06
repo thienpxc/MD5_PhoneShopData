@@ -17,6 +17,7 @@ import com.example.md5_phoneshopdata.modules.users.login.service.UserService;
 import com.example.md5_phoneshopdata.util.jwt.JwtBuilder;
 import com.example.md5_phoneshopdata.util.jwt.dto.EmailConfirmDto;
 import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -29,6 +30,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Optional;
 
+import org.springframework.beans.BeanUtils;
 @Controller
 @RequestMapping("/api")
 @CrossOrigin("*")
@@ -168,4 +170,25 @@ public class UserCotroller {
         return ResponseEntity.ok(iuserSerive.findByUserNameIgnoreCaseContaining(userName));
 
     }
+
+   @PostMapping("/user/changePassword")
+public ResponseEntity<?> updateUser(@RequestBody Users user) {
+    Users currentUser = iuserSerive.findById(user.getId()).orElseThrow(() -> new RuntimeException("User not found"));
+
+    String hashedPassword = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
+    currentUser.setPassword(hashedPassword);
+
+    return ResponseEntity.ok(iuserSerive.save(currentUser));
+}
+
+
+@PostMapping("/user/update")
+public ResponseEntity<?> updateUserWithoutPassword(@RequestBody Users user) {
+    Users currentUser = iuserSerive.findById(user.getId()).orElseThrow(() -> new RuntimeException("User not found"));
+
+    // Copy properties from the user object to the currentUser object, excluding the password property
+    BeanUtils.copyProperties(user, currentUser, "password");
+
+    return ResponseEntity.ok(iuserSerive.save(currentUser));
+}
 }
