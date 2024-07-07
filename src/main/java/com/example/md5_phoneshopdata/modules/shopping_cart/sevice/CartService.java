@@ -4,6 +4,7 @@ import com.example.md5_phoneshopdata.modules.product.admin.repository.ProductVar
 import com.example.md5_phoneshopdata.modules.product.user.product_ariant.ProductVariant;
 import com.example.md5_phoneshopdata.modules.shopping_cart.ShoppingCart;
 import com.example.md5_phoneshopdata.modules.shopping_cart.repository.CartRepository;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,16 +25,27 @@ public class CartService {
         );
 
         if (!existingCarts.isEmpty()) {
+            boolean updated = false;
             for (ShoppingCart existingCart : existingCarts) {
-                existingCart.setQuantity(existingCart.getQuantity() + 1);
-                cartRepository.save(existingCart);
+                if (existingCart.isStatus() == cart.isStatus()) {
+                    existingCart.setQuantity(existingCart.getQuantity() + cart.getQuantity());
+                    cartRepository.save(existingCart);
+                    updated = true;
+                    break;
+                }
+            }
+            if (!updated) {
+                cartRepository.save(cart);
+                existingCarts.add(cart);
             }
         } else {
-            cart.setQuantity(1);
             cartRepository.save(cart);
             existingCarts.add(cart);
         }
 
         return existingCarts;
+    }
+    public List<ShoppingCart> getActiveCart(Integer userId) {
+        return cartRepository.findByUser_IdAndStatusTrue(userId);
     }
 }

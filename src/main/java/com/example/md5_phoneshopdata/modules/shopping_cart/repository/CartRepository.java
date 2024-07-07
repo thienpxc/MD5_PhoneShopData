@@ -12,6 +12,6 @@ import java.util.List;
 @Transactional
 @Repository
 public interface CartRepository extends JpaRepository<ShoppingCart, Integer> {
-//    ShoppingCart findByProductIdAndVariantId(Product product, ProductVariant variantId);
+    List<ShoppingCart> findByUser_IdAndStatusTrue(Integer user);
 List<ShoppingCart> findByUser_IdAndProduct_IdAndProductVariant_Id(Integer user, Integer product, Integer productVariant);
 }

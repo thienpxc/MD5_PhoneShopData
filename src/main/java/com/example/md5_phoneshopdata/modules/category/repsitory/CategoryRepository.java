@@ -1,6 +1,7 @@
 package com.example.md5_phoneshopdata.modules.category.repsitory;
 
 import com.example.md5_phoneshopdata.modules.category.Category;
+import com.example.md5_phoneshopdata.modules.product.Product;
 
 import java.util.List;
 
@@ -20,6 +21,9 @@ public interface CategoryRepository {
     boolean existsByName(String name);
 
     List<Category> findByPagination(int limit, int offset);
+
+    List<Product> findProductsByCategoryId(Integer categoryId);
+
 
 
 }

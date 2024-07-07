@@ -3,6 +3,7 @@ package com.example.md5_phoneshopdata.modules.category.controller;
 import com.example.md5_phoneshopdata.modules.category.Category;
 import com.example.md5_phoneshopdata.modules.category.service.ICategoryService;
 
+import com.example.md5_phoneshopdata.modules.product.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.*;
@@ -63,5 +64,10 @@ public class CategoryController {
     @GetMapping("/admin/category/search")
     public List<Category> searchCategoryByName(@RequestParam String name) {
         return categoryService.searchByName(name);
+    }
+
+    @GetMapping("/category/{id}")
+    public List<Product> getCategoryProductById(@PathVariable Integer id) {
+        return categoryService.findProductsByCategoryId(id);
     }
 }

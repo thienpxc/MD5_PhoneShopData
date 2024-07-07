@@ -2,6 +2,7 @@ package com.example.md5_phoneshopdata.modules.category.service;
 
 import com.example.md5_phoneshopdata.modules.category.Category;
 import com.example.md5_phoneshopdata.modules.category.repsitory.CategoryRepository;
+import com.example.md5_phoneshopdata.modules.product.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
@@ -50,6 +51,11 @@ public class CategoryServiceImpl implements ICategoryService{
     @Override
     public List<Category> findByPagination(int limit, int offset) {
         return categoryRepository.findByPagination(limit, offset);
+    }
+
+    @Override
+    public List<Product> findProductsByCategoryId(Integer categoryId) {
+        return categoryRepository.findProductsByCategoryId(categoryId);
     }
 
 

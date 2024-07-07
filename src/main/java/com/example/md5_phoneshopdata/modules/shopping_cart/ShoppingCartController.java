@@ -15,6 +15,14 @@ public class ShoppingCartController {
     @Autowired
     private CartService cartService;
 
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<List<ShoppingCart>> getActiveCart(@PathVariable Integer userId) {
+        List<ShoppingCart> activeCart = cartService.getActiveCart(userId);
+        return ResponseEntity.ok(activeCart);
+    }
+
+
     @PostMapping("/add")
     public ResponseEntity<?> addToCart(@RequestBody ShoppingCart cart) {
         try {
@@ -26,5 +34,6 @@ public class ShoppingCartController {
             return new ResponseEntity<>("Error adding to cart: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 
 }
