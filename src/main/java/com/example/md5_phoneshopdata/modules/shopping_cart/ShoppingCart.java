@@ -27,6 +27,7 @@ public class ShoppingCart {
     @ManyToOne
     @JoinColumn(name = "variant_id")
     private ProductVariant productVariant;
+    private boolean status = true;
 
     @Override
     public String toString() {

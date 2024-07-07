@@ -1,6 +1,7 @@
 package com.example.md5_phoneshopdata.modules.category.repsitory;
 
 import com.example.md5_phoneshopdata.modules.category.Category;
+import com.example.md5_phoneshopdata.modules.product.Product;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
@@ -71,6 +72,12 @@ public class CategoryRepositoryImpl  implements CategoryRepository{
         return entityManager.createQuery("select c from Category c", Category.class)
                 .setFirstResult(offset)
                 .setMaxResults(limit)
+                .getResultList();
+    }
+    @Override
+    public List<Product> findProductsByCategoryId(Integer categoryId) {
+        return entityManager.createQuery("select p from Product p where p.category.id = :categoryId", Product.class)
+                .setParameter("categoryId", categoryId)
                 .getResultList();
     }
 
